@@ -3,44 +3,39 @@ Here are the decomposed propositions:
 1. Nikola Tesla was born on July 10, 1856.
 2. Nikola Tesla was born in Smiljan, which is now part of Croatia.
 3. Nikola Tesla was a brilliant inventor, engineer, and futurist.
-4. Nikola Tesla's contributions to science and technology have left an indelible mark on modern society.
-5. Nikola Tesla is best known for his work in electrical engineering.
-6. Nikola Tesla developed alternating current (AC) electrical systems.
-7. AC electrical systems became the standard for electrical power distribution across the world.
-8. Nikola Tesla's innovations in AC motors, transformers, and generators provided a more efficient and practical way to transmit electricity over long distances.
-9. Nikola Tesla's innovations significantly surpassed direct current (DC) systems advocated by Thomas Edison.
-10. Nikola Tesla's vision for electricity paved the way for the electrification of cities and industries.
-11. Nikola Tesla's vision revolutionized the 20th century.
-12. Nikola Tesla made pioneering contributions to wireless communication and radio technology.
-13. Nikola Tesla's contributions to wireless communication and radio technology laid the groundwork for the development of modern wireless systems.
-14. Nikola Tesla conducted experiments on wireless energy transmission in the late 1890s.
-15. Nikola Tesla demonstrated the possibility of transmitting signals across great distances.
-16. Guglielmo Marconi is often credited with inventing the radio.
-17. Nikola Tesla's earlier patents and demonstrations played a crucial role in the development of radio technology.
-18. Nikola Tesla envisioned a world interconnected by wireless signals.
-19. Nikola Tesla envisioned a world interconnected by wireless signals, much like today's internet and global communications network.
-20. Nikola Tesla built the Wardenclyffe Tower in New York.
-21. The Wardenclyffe Tower was designed to transmit wireless electricity and communication signals across the globe.
-22. Nikola Tesla believed that wireless energy could power the world without the need for cables.
-23. Nikola Tesla believed that wireless energy could make electricity free and accessible to all.
-24. The Wardenclyffe Tower was never completed due to a lack of funding.
-25. Nikola Tesla's dream of global wireless power remained unrealized.
-26. The Wardenclyffe Tower symbolizes Nikola Tesla's boundless imagination.
-27. The Wardenclyffe Tower symbolizes Nikola Tesla's ability to think beyond the technological limitations of his time.
+4. Nikola Tesla's contributions to science and technology have had a lasting impact on modern society.
+5. Nikola Tesla is best known for his work in electrical engineering, particularly in developing alternating current (AC) electrical systems.
+6. AC electrical systems became the standard for electrical power distribution across the world.
+7. Nikola Tesla's innovations in AC motors, transformers, and generators provided a more efficient and practical way to transmit electricity over long distances.
+8. Nikola Tesla's innovations in AC electrical systems significantly surpassed direct current (DC) systems advocated by Thomas Edison.
+9. Nikola Tesla's vision for electricity paved the way for the electrification of cities and industries.
+10. Nikola Tesla's vision for electricity revolutionized the 20th century.
+11. Nikola Tesla made pioneering contributions to wireless communication and radio technology.
+12. Nikola Tesla's work in wireless communication and radio technology laid the groundwork for the development of modern wireless systems.
+13. Nikola Tesla conducted experiments on wireless energy transmission in the late 1890s.
+14. Nikola Tesla demonstrated the possibility of transmitting signals across great distances in the late 1890s.
+15. Nikola Tesla's earlier patents and demonstrations played a crucial role in the development of radio technology.
+16. Nikola Tesla envisioned a world interconnected by wireless signals, similar to today's internet and global communications network.
+17. One of Nikola Tesla's most ambitious projects was the Wardenclyffe Tower.
+18. The Wardenclyffe Tower was a massive structure built in New York.
+19. The purpose of the Wardenclyffe Tower was to transmit wireless electricity and communication signals across the globe.
+20. Nikola Tesla believed that wireless energy could power the world without the need for cables.
+21. Nikola Tesla believed that electricity could be free and accessible to all if wireless energy transmission was successful.
+22. The Wardenclyffe Tower project was never completed due to a lack of funding.
+23. Nikola Tesla's dream of global wireless power remained unrealized.
+24. The Wardenclyffe Tower symbolizes Nikola Tesla's boundless imagination and ability to think beyond technological limitations.
+25. Nikola Tesla's personal life was often described as eccentric.
+26. Nikola Tesla was known for his unique habits and obsessive work ethic.
+27. Nikola Tesla had an aversion to marriage and believed that celibacy was key to his scientific focus.
 28. Nikola Tesla rarely slept more than a few hours a day.
-29. Nikola Tesla had an aversion to marriage.
-30. Nikola Tesla claimed that celibacy was key to his scientific focus.
-31. Nikola Tesla's later years were marked by financial difficulties and personal isolation.
-32. Nikola Tesla's later years were marked by many of his projects being left unfinished or underfunded.
-33. Nikola Tesla remained a passionate advocate for the advancement of science and humanity.
-34. Nikola Tesla often made bold predictions about future technologies.
-35. Some of Nikola Tesla's predictions, such as smartphones and wireless communications, have come true.
-36. Nikola Tesla died in relative obscurity on January 7, 1943.
-37. Nikola Tesla's legacy has only grown with time.
-38. Nikola Tesla is celebrated as one of history's most visionary scientists and inventors.
-39. Nikola Tesla's contributions to electricity, magnetism, and wireless communication continue to impact the modern world.
-40. Numerous honors, statues, and institutions bear Nikola Tesla's name.
-41. Nikola Tesla's visionary work serves as an inspiration for future generations of inventors and scientists.
-42. Nikola Tesla's life exemplifies the power of imagination.
-43. Nikola Tesla's life exemplifies the pursuit of knowledge.
-44. Nikola Tesla's life exemplifies the relentless drive to shape the future of human civilization.
+29. Nikola Tesla's later years were marked by financial difficulties and personal isolation.
+30. Many of Nikola Tesla's projects were left unfinished or underfunded.
+31. Despite financial difficulties, Nikola Tesla remained a passionate advocate for the advancement of science and humanity.
+32. Nikola Tesla made bold predictions about future technologies, some of which have come true.
+33. Nikola Tesla died on January 7, 1943.
+34. Nikola Tesla's legacy has grown with time.
+35. Nikola Tesla is celebrated as one of history's most visionary scientists and inventors.
+36. Nikola Tesla's contributions to electricity, magnetism, and wireless communication continue to impact the modern world.
+37. Numerous honors, statues, and institutions bear Nikola Tesla's name.
+38. Nikola Tesla's visionary work serves as an inspiration for future generations of inventors and scientists.
+39. Nikola Tesla's life exemplifies the power of imagination, the pursuit of knowledge, and the relentless drive to shape the future of human civilization.
