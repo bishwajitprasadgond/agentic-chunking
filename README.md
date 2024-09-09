@@ -82,32 +82,7 @@ This repository contains the implementation of an asynchronous API for Agentic C
 
 3. **Navigate to the Gradio interface URL** (usually `http://127.0.0.1:7860`) to upload documents and test the API.
 
-## API Endpoints
 
-- **POST /upload**: Upload a document for chunking. Returns the processed chunks asynchronously.
-
-### Example Request
-
-```http
-POST /upload
-Content-Type: multipart/form-data
-
-{
-  "file": (binary file data)
-}
-```
-
-### Example Response
-
-```json
-{
-  "chunks": [
-    "Chunk 1 content...",
-    "Chunk 2 content...",
-    "Chunk 3 content..."
-  ]
-}
-```
 
 ## Contribution
 
