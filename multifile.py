@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Sep  9 10:55:58 2024
+Created on Tue Sep 10 10:28:39 2024
 
 @author: BishwajitPrasadGond
 """
@@ -11,7 +11,7 @@ import gradio as gr
 import PyPDF2
 import io
 from fpdf import FPDF
-from typing import Union
+from typing import Union, List
 from docx import Document
 import pandas as pd
 import json
@@ -30,39 +30,34 @@ predefined_prompts = {
     "Summarize": "Please summarize the content in 100 words."
 }
 
-# Function to read text or PDF document
-def extract_text_from_file(file: Union[gr.File, None]):
-    if file is None:
-        return "No file uploaded."
+# Function to read text or PDF documents
+def extract_text_from_files(files: List[gr.File]):
+    combined_text = ""
     
-    file_ext = os.path.splitext(file.name)[1].lower()
+    for file in files:
+        file_ext = os.path.splitext(file.name)[1].lower()
+        
+        try:
+            if file_ext == ".txt":
+                with open(file.name, "r", encoding="utf-8") as f:
+                    combined_text += f.read() + "\n"
+            elif file_ext == ".pdf":
+                pdf_reader = PyPDF2.PdfReader(file.name)
+                for page_num in range(len(pdf_reader.pages)):
+                    combined_text += pdf_reader.pages[page_num].extract_text() + "\n"
+            elif file_ext == ".docx":
+                doc = Document(file.name)
+                combined_text += "\n".join(paragraph.text for paragraph in doc.paragraphs) + "\n"
+            elif file_ext == ".csv":
+                df = pd.read_csv(file.name)
+                combined_text += df.to_string(index=False) + "\n"
+            else:
+                return f"Unsupported file type: {file_ext}. Please upload a .txt, .pdf, .docx, or .csv file."
+        
+        except Exception as e:
+            return f"Error reading file {file.name}: {str(e)}"
     
-    try:
-        if file_ext == ".txt":
-            # Read from text file
-            with open(file.name, "r", encoding="utf-8") as f:
-                text = f.read()
-        elif file_ext == ".pdf":
-            # Read from PDF file
-            pdf_reader = PyPDF2.PdfReader(file.name)
-            text = ""
-            for page_num in range(len(pdf_reader.pages)):
-                text += pdf_reader.pages[page_num].extract_text()
-        elif file_ext == ".docx":
-            # Read from DOCX file
-            doc = Document(file.name)
-            text = "\n".join(paragraph.text for paragraph in doc.paragraphs)
-        elif file_ext == ".csv":
-            # Read from CSV file
-            df = pd.read_csv(file.name)
-            text = df.to_string(index=False)  # Convert DataFrame to string
-        else:
-            return f"Unsupported file type: {file_ext}. Please upload a .txt, .pdf, .docx, or .csv file."
-
-        return text.strip()
-
-    except Exception as e:
-        return f"Error reading file: {str(e)}"
+    return combined_text.strip()
 
 # Function to send the extracted text and prompt to Groq
 def generate_response(doc_text: str, prompt: str):
@@ -70,10 +65,8 @@ def generate_response(doc_text: str, prompt: str):
         return "Document text or prompt is missing."
     
     try:
-        # Combine the document text and prompt
         final_prompt = f"{prompt}\n\nDocument Text:\n{doc_text}"
 
-        # Send the final prompt and text to Groq
         chat_completion = client.chat.completions.create(
             messages=[
                 {
@@ -111,17 +104,14 @@ def create_json_file(output_text: str):
     return json.dumps(data, indent=4)
 
 # Gradio Interface
-def process_document(doc_file, prompt_text, format_choice):
-    doc_text = extract_text_from_file(doc_file)
+def process_document(doc_files, prompt_text, format_choice):
+    doc_text = extract_text_from_files(doc_files)
     if "Error" in doc_text:
         return doc_text, "", None, None, None
     
-    # Determine the actual prompt to use
     prompt = predefined_prompts.get(prompt_text, prompt_text)
-
     response = generate_response(doc_text, prompt)
     
-    # Save the response to files
     if format_choice == "Text":
         file_content = create_text_file(response)
         file_path = "response.txt"
@@ -171,7 +161,7 @@ with gr.Blocks(css="""
 
     with gr.Row():
         with gr.Column(scale=1):
-            doc_upload = gr.File(label="Upload a Document ( Docx, Pdf, Txt, CSV )", file_types=[".txt", ".pdf", ".docx", ".csv"])
+            doc_upload = gr.Files(label="Upload Multiple Documents ( Docx, Pdf, Txt, CSV )", file_types=[".txt", ".pdf", ".docx", ".csv"])
             prompt_dropdown = gr.Dropdown(
                 choices=["Select a Prompt", "Agentic Chunking", "Sentence Chunking", "Summarize"],
                 label="Select or Enter a Custom Prompt",

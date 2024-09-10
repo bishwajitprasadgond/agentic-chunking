@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Sep  9 10:55:58 2024
+Created on Tue Sep 10 10:28:39 2024
 
 @author: BishwajitPrasadGond
 """
@@ -11,7 +11,7 @@ import gradio as gr
 import PyPDF2
 import io
 from fpdf import FPDF
-from typing import Union
+from typing import Union, List
 from docx import Document
 import pandas as pd
 import json
@@ -20,49 +20,62 @@ client = Groq(api_key="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"
 
 # Predefined prompts
 predefined_prompts = {
-    "Agentic Chunking": """## You are an agentic chunker. You will be provided with content.
+    "Agentic Chunking": """You are tasked with organizing content using "Agentic Chunking." Your goal is to format the content into three distinct sections: Heading, Metadata, and Propositions.
 
-    Decompose the content into clear and simple propositions, ensuring they are interpretable out of context. 
-    1. Split compound sentences into simple sentences. Maintain the original phrasing from the input whenever possible.
-    2. For any named entity that is accompanied by additional descriptive information, separate this information into its own distinct proposition.
-    3. Decontextualize the proposition by adding necessary modifiers to nouns or entire sentences and replacing pronouns (e.g., "it", "he", "she", "they", "this", "that").""",
+1. **Heading**: Create a short, descriptive heading for the content.
+2. **Metadata**: Provide a brief summary of the content in 100 words. This summary should encapsulate the essence of the instructions related to decomposing content into simple propositions, handling compound sentences, and decontextualizing propositions.
+3. **Propositions**: Decompose the content into clear and simple propositions, ensuring they are interpretable out of context. Follow these guidelines:
+   - Split compound sentences into simple sentences. Maintain the original phrasing from the input whenever possible.
+   - For any named entity that is accompanied by additional descriptive information, separate this information into its own distinct proposition.
+   - Decontextualize the proposition by adding necessary modifiers to nouns or entire sentences and replacing pronouns (e.g., "it", "he", "she", "they", "this", "that") with explicit terms.
+
+**Important:** The final output should be formatted as a Python dictionary with the following keys:
+- "heading"
+- "metadata"
+- "propositions"
+
+Here’s an example of how the output should be structured:
+```python
+{
+    "heading": "",
+    "metadata": "",
+    "propositions": []
+}
+```
+
+Ensure the format and structure are followed precisely and dont write "Here is the formatted output in a Python dictionary:" """,
     "Sentence Chunking": "Please break down the text into individual sentences and list them.",
     "Summarize": "Please summarize the content in 100 words."
 }
 
-# Function to read text or PDF document
-def extract_text_from_file(file: Union[gr.File, None]):
-    if file is None:
-        return "No file uploaded."
+# Function to read text or PDF documents
+def extract_text_from_files(files: List[gr.File]):
+    combined_text = ""
     
-    file_ext = os.path.splitext(file.name)[1].lower()
+    for file in files:
+        file_ext = os.path.splitext(file.name)[1].lower()
+        
+        try:
+            if file_ext == ".txt":
+                with open(file.name, "r", encoding="utf-8") as f:
+                    combined_text += f.read() + "\n"
+            elif file_ext == ".pdf":
+                pdf_reader = PyPDF2.PdfReader(file.name)
+                for page_num in range(len(pdf_reader.pages)):
+                    combined_text += pdf_reader.pages[page_num].extract_text() + "\n"
+            elif file_ext == ".docx":
+                doc = Document(file.name)
+                combined_text += "\n".join(paragraph.text for paragraph in doc.paragraphs) + "\n"
+            elif file_ext == ".csv":
+                df = pd.read_csv(file.name)
+                combined_text += df.to_string(index=False) + "\n"
+            else:
+                return f"Unsupported file type: {file_ext}. Please upload a .txt, .pdf, .docx, or .csv file."
+        
+        except Exception as e:
+            return f"Error reading file {file.name}: {str(e)}"
     
-    try:
-        if file_ext == ".txt":
-            # Read from text file
-            with open(file.name, "r", encoding="utf-8") as f:
-                text = f.read()
-        elif file_ext == ".pdf":
-            # Read from PDF file
-            pdf_reader = PyPDF2.PdfReader(file.name)
-            text = ""
-            for page_num in range(len(pdf_reader.pages)):
-                text += pdf_reader.pages[page_num].extract_text()
-        elif file_ext == ".docx":
-            # Read from DOCX file
-            doc = Document(file.name)
-            text = "\n".join(paragraph.text for paragraph in doc.paragraphs)
-        elif file_ext == ".csv":
-            # Read from CSV file
-            df = pd.read_csv(file.name)
-            text = df.to_string(index=False)  # Convert DataFrame to string
-        else:
-            return f"Unsupported file type: {file_ext}. Please upload a .txt, .pdf, .docx, or .csv file."
-
-        return text.strip()
-
-    except Exception as e:
-        return f"Error reading file: {str(e)}"
+    return combined_text.strip()
 
 # Function to send the extracted text and prompt to Groq
 def generate_response(doc_text: str, prompt: str):
@@ -70,10 +83,8 @@ def generate_response(doc_text: str, prompt: str):
         return "Document text or prompt is missing."
     
     try:
-        # Combine the document text and prompt
         final_prompt = f"{prompt}\n\nDocument Text:\n{doc_text}"
 
-        # Send the final prompt and text to Groq
         chat_completion = client.chat.completions.create(
             messages=[
                 {
@@ -111,17 +122,14 @@ def create_json_file(output_text: str):
     return json.dumps(data, indent=4)
 
 # Gradio Interface
-def process_document(doc_file, prompt_text, format_choice):
-    doc_text = extract_text_from_file(doc_file)
+def process_document(doc_files, prompt_text, format_choice):
+    doc_text = extract_text_from_files(doc_files)
     if "Error" in doc_text:
         return doc_text, "", None, None, None
     
-    # Determine the actual prompt to use
     prompt = predefined_prompts.get(prompt_text, prompt_text)
-
     response = generate_response(doc_text, prompt)
     
-    # Save the response to files
     if format_choice == "Text":
         file_content = create_text_file(response)
         file_path = "response.txt"
@@ -171,7 +179,7 @@ with gr.Blocks(css="""
 
     with gr.Row():
         with gr.Column(scale=1):
-            doc_upload = gr.File(label="Upload a Document ( Docx, Pdf, Txt, CSV )", file_types=[".txt", ".pdf", ".docx", ".csv"])
+            doc_upload = gr.Files(label="Upload Multiple Documents ( Docx, Pdf, Txt, CSV )", file_types=[".txt", ".pdf", ".docx", ".csv"])
             prompt_dropdown = gr.Dropdown(
                 choices=["Select a Prompt", "Agentic Chunking", "Sentence Chunking", "Summarize"],
                 label="Select or Enter a Custom Prompt",
