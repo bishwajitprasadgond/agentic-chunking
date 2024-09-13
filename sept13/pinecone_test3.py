@@ -217,7 +217,7 @@ def send_and_get_reply_groq(query1, text_str):
     
     # Formulate the prompt using search results
     prompt1 = (
-        f"Based on the following given query and corpus, answer the query concisely. If the answer is not present, "
+        f"Based on the following given query and corpus, answer the query concisely in one or two sentence. If the answer is not present, "
         f"reply 'Answer is not present.'\n\n"
         f"text:\n{text_str}\n\nQuery: {query1}"
     )
