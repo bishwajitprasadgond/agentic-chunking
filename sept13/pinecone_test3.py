@@ -200,7 +200,7 @@ def search_pinecone(query):
             search_results = "\n".join([f"ID: {match['id']}\nScore: {match['score']}\nMetadata: {match['metadata']}" for match in result['matches']])
             search_results_str= str(search_results)
             #print(search_results_str)
-            b= search_results_str[search_results_str.index('metadata')+10:]
+            b= search_results_str[search_results_str.index('proposition:')+12:search_results_str.index('"}')]
             #print(b)
             
             return b
@@ -211,22 +211,22 @@ def search_pinecone(query):
         return f"Error searching Pinecone: {e}"
 #%%
 # Function to send the search results and query to Groq
-def send_and_get_reply_groq(query:str, text_str:str):
-    if not text_str or not query:
+def send_and_get_reply_groq(query1, text_str):
+    if not text_str or not query1:
         return "Document text or query is missing."
     
     # Formulate the prompt using search results
     prompt1 = (
         f"Based on the following given query and corpus, answer the query concisely. If the answer is not present, "
         f"reply 'Answer is not present.'\n\n"
-        f"text:\n{text_str}\n\nQuery: {query}"
+        f"text:\n{text_str}\n\nQuery: {query1}"
     )
-    
+    print(query1 + prompt1 + text_str)
     try:
         # Send the prompt to the Groq model for a response
         chat_completion = groq_client.chat.completions.create(
             messages=[
-                {"role": "system", "content": query + prompt1},
+                {"role": "system", "content": prompt1},
                 {"role": "user", "content": text_str}
             ],
             model="llama3-8b-8192",
@@ -235,6 +235,7 @@ def send_and_get_reply_groq(query:str, text_str:str):
         )
         
         response = chat_completion.choices[0].message.content
+        print(response)
         return response
     except Exception as e:
         return f"Error:In send_and_get_reply_groq Function {e}"
@@ -244,14 +245,12 @@ def send_and_get_reply_groq(query:str, text_str:str):
 # Main function to execute the search and send propositions to Groq
 def process_query(query):
     search_results = search_pinecone(query)
-    
-    if isinstance(search_results, str):
-        return search_results
+    print(search_results)
+    # if isinstance(search_results, str):
+    #     return search_results
     
     text =  search_results
-    groq_response = send_and_get_reply_groq(query, text)
-    
-    return groq_response
+    return send_and_get_reply_groq(query, text)
 #%%
 def process_document(doc_files, prompt_text):
     combined_responses = ""
