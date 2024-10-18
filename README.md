@@ -8,7 +8,7 @@ This repository contains the implementation of an asynchronous API for Agentic C
 
 1. **FastAPI**: Provides the core asynchronous API framework for handling document uploads and processing.
 2. **Langchain**: Facilitates the chunking of documents and interactions with language models.
-3. **Llava**: Assists with understanding and processing document chunks in a meaningful way.
+3. **Groq**: Assists with understanding and processing document chunks in a meaningful way.
 4. **Gradio**: Offers a user interface for testing the API and visualizing the chunking results.
 
 ## Solution Outline
